@@ -41,6 +41,8 @@ public class WeatherService {
         else{
             Locality locality = localityService.findLocalityByPincode(pincode);
             Weather weather = weatherHelper.getWeatherInfoFromOpenWeather(locality.getLatitude(), locality.getLongitude());
+            weather.setDate(date);
+            weather.setPincode(pincode);
             weather1 = weatherRepo.save(weather);
         }
         transformtoDtoObject(weather1, weatherDTO);

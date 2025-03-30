@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WeatherHelper {
-    String urlFormat = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=$s&appid=%s";
+    String urlFormat = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s";
     @Value("${weather.api.key}")
     private String apiKey;
     @Autowired RequestHelper requestHelper;
@@ -24,13 +24,14 @@ public class WeatherHelper {
         String url = String.format(urlFormat, latitude, longitude, apiKey);
         JSONObject responseObject = requestHelper.getResponse(url,apiKey);
         JSONObject mainStats = responseObject.getJSONObject("main");
-        String windSpeed = responseObject.getJSONObject("wind").getString("speed");
+        String windSpeed = responseObject.getJSONObject("wind").get("speed").toString();
         Weather weather = new Weather();
         weather.setWindSpeed(windSpeed);
-        weather.setHighTemparature(mainStats.getString("temp_max"));
-        weather.setLowTemparature(mainStats.getString("temp_min"));
-        weather.setPressure(mainStats.getString("pressure"));
-        weather.setHumidity(mainStats.getString("humidity"));
+        weather.setHighTemparature(mainStats.get("temp_max").toString());
+        weather.setLowTemparature(mainStats.get("temp_min").toString());
+        weather.setPressure(mainStats.get("pressure").toString());
+        weather.setTemparature(mainStats.get("temp").toString());
+        weather.setHumidity(mainStats.get("humidity").toString());
 
         return weather;
 

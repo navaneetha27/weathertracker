@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface WeatherRepo extends JpaRepository<Weather,Long> {
 
-    @Query(value = "SELECT * FROM weather WHERE pin_code = :pinCode AND date = :date", nativeQuery = true)
+    @Query(value = "SELECT * FROM weather WHERE pincode = :pinCode AND date = :date", nativeQuery = true)
     Optional<Weather> findByPinCodeAndDate(@Param("pinCode") String pinCode, @Param("date") String date);
 }
